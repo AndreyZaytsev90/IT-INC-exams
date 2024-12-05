@@ -682,14 +682,13 @@ root.render(<App/>)
 
 
 //Sprint4-2
-//1
-/*
+/*//1  dispatch(getPostsTC())
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import { Provider, TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
-import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import {combineReducers, configureStore} from "@reduxjs/toolkit";
 
 // Types
 type PostType = {
@@ -716,7 +715,7 @@ type InitStateType = typeof initState;
 const postsReducer = (state: InitStateType = initState, action: GetPostsActionType): InitStateType => {
     switch (action.type) {
         case "POSTS/GET-POSTS":
-            return action.posts;
+            return action.posts
     }
     return state;
 };
@@ -748,7 +747,7 @@ const App = () => {
     const posts = useAppSelector((state) => state.posts);
 
     useEffect(() => {
-        dispatch(getPostsTC);
+        dispatch(getPostsTC());
     }, []);
 
     return (
@@ -785,9 +784,10 @@ root.render(
 // 🖥 Пример ответа: type InitStateType = typeof initState
 
 // P.S. Эта ошибка из реальной жизни, студенты так часто ошибаются и не могут понять в чем дело.*/
-//2
-/*
-import axios from "axios";
+
+//2 void RootState unknown ActionsType
+
+/*import axios from "axios";
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import { Provider, TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
@@ -830,7 +830,7 @@ const getCommentsAC = (comments: CommentType[]) =>
     ({ type: "COMMENTS/GET-COMMENTS", comments }) as const;
 type ActionsType = ReturnType<typeof getCommentsAC>;
 
-const getCommentsTC = (): ThunkAction<any, any, any, any> => (dispatch) => {
+const getCommentsTC = (): ThunkAction<void, RootState, unknown, ActionsType> => (dispatch) => {
     commentsAPI.getComments().then((res) => {
         dispatch(getCommentsAC(res.data));
     });
@@ -883,9 +883,9 @@ root.render(
 // Ответ дайте через пробел
 
 // 🖥 Пример ответа: unknown status isDone void*/
-//3
-/*
-import React, { useEffect } from "react";
+
+//3 const currentPost = getState().posts.find((p: PostType) => p.id === postId)
+/*import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { Provider, TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
@@ -953,9 +953,9 @@ const getPostsTC = (): AppThunk => (dispatch) => {
 
 const updatePostTC =
     (postId: string): AppThunk =>
-        (dispatch, getState: any) => {
+        (dispatch , getState: any) => {
             try {
-                const currentPost = getState().find((p: PostType) => p.id === postId);
+                const currentPost = getState().posts.find((p: PostType) => p.id === postId);
 
                 if (currentPost) {
                     const payload = { title: "Это просто заглушка. Backend сам сгенерирует новый title" };
@@ -1021,9 +1021,9 @@ root.render(
 // Найдите ошибку и вставьте исправленную строку кода в качестве ответа.
 
 // 🖥 Пример ответа: const payload = {...currentPost, tile: 'Летим 🚀'}*/
-//4
-/*
-import axios from "axios";
+
+//4 RootState unknown ActionsType
+/*import axios from "axios";
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import { Provider, TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
@@ -1079,7 +1079,7 @@ const rootReducer = combineReducers({
 
 const store = configureStore({ reducer: rootReducer });
 type RootState = ReturnType<typeof rootReducer>;
-type DispatchType = ThunkDispatch<any, any, any>;
+type DispatchType = ThunkDispatch<RootState, unknown, ActionsType>;
 const useAppDispatch = () => useDispatch<DispatchType>();
 const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
@@ -1119,7 +1119,8 @@ root.render(
 // Ответ дайте через пробел
 
 // 🖥 Пример ответа: unknown status isDone*/
-//5+
+
+//5+ ?
 /*
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
@@ -1244,7 +1245,7 @@ root.render(
 // Правильную версию строки напишите в качестве ответа.
 
 // 🖥 Пример ответа: return instance.get<CommentType[]>('comments?_limit=10')*/
-//6+
+//6+ dispatch: any, getState: any
 /*
 import React from 'react'
 import ReactDOM from 'react-dom/client';
@@ -1272,8 +1273,10 @@ root.render(<App/>)
 // Вместо XXX и YYY через пробел напишите параметры которые приходят в санку.
 //
 // 🖥 Пример ответа: useCallback state*/
-//7
-import { useEffect } from "react";
+
+
+//7  dispatch(getTodosTC())
+/*import { useEffect } from "react";
 import ReactDOM from "react-dom/client";
 import { Provider, TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
@@ -1365,7 +1368,7 @@ const App = () => {
     const todos = useAppSelector((state) => state.todos);
 
     useEffect(() => {
-        getTodosTC();
+        dispatch(getTodosTC());
     }, []);
 
     const changeStatusHandler = (id: string, completed: boolean) => {
@@ -1408,4 +1411,4 @@ root.render(
 // Найдите и исправьте ошибку.
 // Исправленную версию строки напишите в качестве ответа.
 
-// 🖥 Пример ответа: type InitStateType = typeof initState
+// 🖥 Пример ответа: type InitStateType = typeof initState*/
